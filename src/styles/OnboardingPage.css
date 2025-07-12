@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@700&family=Open+Sans&display=swap');
+
 .onboarding-bg {
   width: 100vw;
   height: 100vh;
@@ -12,7 +14,7 @@
 .onboarding-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(30, 80, 180, 0.55);
+  background: rgba(19, 61, 146, 0.8);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -21,7 +23,7 @@
 
 .onboarding-content {
   width: 100%;
-  max-width: 400px;
+  max-width: 800px;
   margin: 0 auto;
   color: #fff;
   text-align: center;
@@ -29,21 +31,25 @@
 }
 
 .onboarding-title {
-  font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
-  font-size: 2rem;
-  font-weight: 700;
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  font-size: 4rem;
   margin-bottom: 1rem;
-  letter-spacing: 1px;
+  color: #fff;
   text-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 .onboarding-subtitle {
-  font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
-  font-size: 1.1rem;
+  font-family: 'Open Sans', sans-serif;
   font-weight: 400;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
   margin-bottom: 2rem;
+  color: #fff;
   text-shadow: 0 2px 8px rgba(0,0,0,0.10);
 }
+
 
 .onboarding-nav {
   position: absolute;
@@ -71,18 +77,32 @@
   outline: none;
 }
 
-.onboarding-btn:active,
-.onboarding-btn:focus {
-  background: rgba(255,255,255,0.1);
+.onboarding-btn.primary:hover,
+.onboarding-btn.primary:focus {
+  background: #fff;
+  color: #1557d6;
+}
+
+.onboarding-btn:not(.primary):hover,
+.onboarding-btn:not(.primary):focus {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
 }
 
 .onboarding-btn.primary {
-  background: #1e50b4;
+  background: #1557d6;
   color: #fff;
   font-weight: 600;
-  margin-top: 2rem;
-  padding: 0.7rem 2rem;
+  font-size: 1.1rem;
+  border: none;
   border-radius: 25px;
+  padding: 0.9rem 0;
+  width: 90%;
+  max-width: 320px;
+  margin: 2rem auto 0 auto;
+  box-shadow: 0 2px 8px rgba(30, 80, 180, 0.15);
+  transition: background 0.2s, color 0.2s;
+  display: block;
 }
 
 .onboarding-dots {
@@ -110,6 +130,8 @@
   opacity: 1;
 }
 
+
+
 @media (max-width: 600px) {
   .onboarding-dots {
     bottom: 56px;
@@ -118,6 +140,13 @@
   .onboarding-dot {
     width: 8px;
     height: 8px;
+  }
+
+    .onboarding-title {
+    font-size: 1.3rem;
+  }
+  .onboarding-subtitle {
+    font-size: 0.85rem;
   }
 }
 

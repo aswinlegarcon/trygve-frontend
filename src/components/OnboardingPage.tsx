@@ -91,7 +91,7 @@ const OnboardingPage : React.FC = () => {
             if (touchStartX.current === null) return;
             const mouseEndX = e.clientX;
             const diff = mouseEndX - touchStartX.current;
-            if (diff > 50  && currentScreen > 1) prevScreen();
+            if (diff > 50  && currentScreen > 1 ) prevScreen();
             if (diff < -50) nextScreen();
             touchStartX.current = null;
         };
@@ -115,13 +115,16 @@ const OnboardingPage : React.FC = () => {
     return (
         <div className="onboarding-bg" style={{ backgroundImage: `url(${backgroundImage})` }}>
             <div className="onboarding-overlay">
+                
                 <div className="onboarding-content">
                     <h1 className="onboarding-title">{title}</h1>
                     <p className="onboarding-subtitle">{subtitle}</p>
                     {
                             currentScreen === screens.length - 1 &&
-                            <button className="onboarding-btn" onClick={() => alert('clicked')}>Get Started</button>
+                            <button className="onboarding-btn primary"  onClick={() => alert('clicked')}>Get Started</button>
                     }
+
+
                     <div className="onboarding-dots">
                         {
                             currentScreen !== 0 && (
