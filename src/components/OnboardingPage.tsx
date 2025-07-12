@@ -1,4 +1,4 @@
-import React, {useState,useEffect, use} from "react";
+import React, {useState,useEffect, useRef} from "react";
 import '../styles/OnboardingPage.css';
 
 
@@ -31,13 +31,17 @@ const screens = [
 
 const OnboardingPage : React.FC = () => {
     const [currentScreen,setCurrentScreen] = useState(0);
-
+    const touchStartX = useRef<number | null>(null);
     const nextScreen = ()=> {
         currentScreen<screens.length-1 && setCurrentScreen(currentScreen + 1);
     };
 
     const lastScreen = () => {
         setCurrentScreen(screens.length - 1);
+    }
+
+    const prevScreen = () => {
+        currentScreen > 0 && setCurrentScreen(currentScreen - 1);
     }
 
     useEffect(() => {
@@ -47,6 +51,64 @@ const OnboardingPage : React.FC = () => {
             }, 3000);
         }
     },[]);
+
+    // keyboard navigation
+    useEffect( () => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if(currentScreen === 0) return; // Prevent navigation on the first screen
+            e.key==='ArrowRight' && nextScreen();
+            e.key==='ArrowLeft' && currentScreen > 1 && prevScreen();
+        }
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {window.removeEventListener('keydown', handleKeyDown);};
+    }, [currentScreen]);
+
+    // mouse and touch navigation
+    useEffect( () => {
+        const handleTouchStart = (e :TouchEvent) => {
+            if(currentScreen === 0) return; // Prevent navigation on the first screen
+            touchStartX.current = e.touches[0].clientX;
+        };
+
+        const handleTouchEnd = (e:TouchEvent) => {
+            if(currentScreen === 0 || touchStartX.current===null) return;
+            const touchEndX = e.changedTouches[0].clientX;
+            const touchDiff = touchStartX.current - touchEndX;
+            if (touchDiff > 50) nextScreen();
+            if (touchDiff < -50 && currentScreen > 1) prevScreen();
+            touchStartX.current = null; // Reset after handling
+        };
+
+        const handleMouseDown = (e: MouseEvent) => {
+            if(currentScreen === 0) return; // Prevent navigation on the first screen
+            e.preventDefault(); // Prevent text selection
+            touchStartX.current = e.clientX;
+        };
+        const handleMouseUp = (e: MouseEvent) => {
+            if(currentScreen === 0) return; // Prevent navigation on the first screen
+            e.preventDefault(); // Prevent text selection
+            if (touchStartX.current === null) return;
+            const mouseEndX = e.clientX;
+            const diff = mouseEndX - touchStartX.current;
+            if (diff > 50  && currentScreen > 1) prevScreen();
+            if (diff < -50) nextScreen();
+            touchStartX.current = null;
+        };
+
+        window.addEventListener('touchstart', handleTouchStart);
+        window.addEventListener('touchend', handleTouchEnd);
+        window.addEventListener('mousedown', handleMouseDown);
+        window.addEventListener('mouseup', handleMouseUp);
+        return () => {
+            window.removeEventListener('touchstart', handleTouchStart);
+            window.removeEventListener('touchend', handleTouchEnd);
+            window.removeEventListener('mousedown', handleMouseDown);
+            window.removeEventListener('mouseup', handleMouseUp);
+        };
+    },[currentScreen]) ;
+
+
 
     const {backgroundImage,title,subtitle} = screens[currentScreen];
 
