@@ -1,21 +1,13 @@
-import { useState } from 'react'
-import './App.css'
+import React from 'react';  
+import './App.css';
+import OnboardingPage from './components/OnboardingPage';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <h1>Hi my app</h1>
-      </div>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-      </div>
-    </>
-  )
+    <div className="App">
+      <OnboardingPage />
+    </div>
+  );
 }
 
-export default App
+export default App;
