@@ -85,6 +85,42 @@
   border-radius: 25px;
 }
 
+.onboarding-dots {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 4;
+}
+
+.onboarding-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #646363;
+  opacity: 0.5;
+  transition: opacity 0.2s, background 0.2s;
+}
+
+.onboarding-dot.active {
+    scale: 1.2;
+  background: #fff;
+  opacity: 1;
+}
+
+@media (max-width: 600px) {
+  .onboarding-dots {
+    bottom: 56px;
+    gap: 8px;
+  }
+  .onboarding-dot {
+    width: 8px;
+    height: 8px;
+  }
+}
+
 @media (max-width: 600px) {
   .onboarding-content {
     max-width: 95vw;

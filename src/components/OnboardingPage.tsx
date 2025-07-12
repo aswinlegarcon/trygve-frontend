@@ -60,6 +60,21 @@ const OnboardingPage : React.FC = () => {
                             currentScreen === screens.length - 1 &&
                             <button className="onboarding-btn" onClick={() => alert('clicked')}>Get Started</button>
                     }
+                    <div className="onboarding-dots">
+                        {
+                            currentScreen !== 0 && (
+                                screens.map((_, index) => (
+                                    index !== 0 && 
+                                    <span
+                                        key={index}
+                                        className={`onboarding-dot ${currentScreen === index ? 'active' : ''}`}
+                                        onClick={() => setCurrentScreen(index)}
+                                        style={{ cursor: 'pointer' }}
+                                    />
+                                ))
+                            )
+                        }
+                    </div>
                     <div className="onboarding-nav">
                         {
                             currentScreen !== 0 && currentScreen !== screens.length - 1 &&
