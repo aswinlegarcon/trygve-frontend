@@ -31,7 +31,7 @@ const screens = [
 
 const OnboardingPage : React.FC = () => {
     const [currentScreen,setCurrentScreen] = useState(0);
-    const touchStartX = useRef<number | null>(null);
+    const touchStartX = useRef<number | null>(null); // know about this
     const nextScreen = ()=> {
         currentScreen<screens.length-1 && setCurrentScreen(currentScreen + 1);
     };
@@ -117,8 +117,8 @@ const OnboardingPage : React.FC = () => {
             <div className="onboarding-overlay">
                 
                 <div className="onboarding-content">
-                    <h1 className="onboarding-title">{title}</h1>
-                    <p className="onboarding-subtitle">{subtitle}</p>
+                    <h1 className="onboarding-title" key={currentScreen}>"{title}"</h1>
+                    <p className="onboarding-subtitle">"{subtitle}"</p>
                     {
                             currentScreen === screens.length - 1 &&
                             <button className="onboarding-btn primary"  onClick={() => alert('clicked')}>Get Started</button>

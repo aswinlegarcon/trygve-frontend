@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@700&family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
 
 .onboarding-bg {
   width: 100vw;
@@ -31,17 +31,28 @@
 }
 
 .onboarding-title {
-  font-family: 'Exo 2', sans-serif;
+  font-family: 'Audiowide', sans-serif;
   font-weight: 800;
   letter-spacing: 0.02em;
   font-size: 4rem;
   margin-bottom: 1rem;
   color: #fff;
   text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  animation: slideInLeft 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+}
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .onboarding-subtitle {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 400;
   font-size: 1rem;
   letter-spacing: 0.5px;
