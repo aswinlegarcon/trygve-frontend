@@ -87,6 +87,7 @@
   background: #fff;
   color: #1557d6;
   border: 1.5px solid #1557d6;
+  margin-bottom: 0;
 }
 
 .home-btn.secondary:hover,
@@ -96,6 +97,10 @@
 }
 
 @media (max-width: 600px) {
+    .home-logo-bg {
+        width: 400px;
+        height: 400px;
+    }
     .home-content {
     max-width: 75vw;
   }
@@ -103,4 +108,12 @@
     font-size: 0.85rem;
     max-width: 90vw;
   }
+}
+
+@media (max-width: 345px)
+{
+    .home-logo-bg {
+        width: 380px;
+        height: 380px;
+    }
 }
