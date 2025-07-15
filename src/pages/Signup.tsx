@@ -9,6 +9,7 @@ const Signup: React.FC = () => {
 
     const handleSendCode = (e: React.FormEvent)=>{
         e.preventDefault();
+        navigate("/otp",{ state: { phone: `${countryCode} ${phone}` } });
         alert(`Code sent to ${countryCode} ${phone}`);
     }
     return (
