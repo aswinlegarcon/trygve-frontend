@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import "../components/OtpVerification.css"; // Assuming you have a CSS file for styling
 
 
@@ -22,6 +22,10 @@ const OtpVerification: React.FC<OtpVerificationProps> = ({
 }) => {
     const [otp,setOtp] = useState(Array(6).fill(""));// Initialize an array of 6 empty strings for OTP input
 
+    useEffect(() => {
+        localStorage.setItem("dummy_otp","000000"); // Store a dummy OTP in localStorage
+    },[]);
+
     const handleChange = (value : string, index: number) => {
         if(/^\d?$/.test(value)){
             const newOtp = [...otp];
@@ -34,9 +38,32 @@ const OtpVerification: React.FC<OtpVerificationProps> = ({
         }
     };
 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+        if(e.key==="Backspace")
+        {
+            if(otp[index]==="" && index>0)
+            {
+                const prev = document.getElementById(`otp-input-${index-1}`);
+                prev && (prev as HTMLInputElement).focus(); // Move focus to the previous input
+            }
+        }
+    }
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onVerify(otp.join("")); // Join the OTP array into a string and call onVerify
+        if(otp.some(digit=> digit===""))
+        {
+            alert ("Please fill all the OTP fields");
+            return;
+        }
+        const enteredOtp = otp.join(""); // Join the OTP array into a string
+        const dummyOtp = localStorage.getItem("dummy_otp");
+        if(enteredOtp !== dummyOtp)
+        {
+            alert("Invalid OTP");
+            return;
+        }
+        onVerify(enteredOtp); // Join the OTP array into a string and call onVerify
     };
 
     return (
@@ -57,6 +84,7 @@ const OtpVerification: React.FC<OtpVerificationProps> = ({
                             className="otp-input"
                             value={digit}
                             onChange={(e) => handleChange(e.target.value, index)}
+                            onKeyDown={(e) => handleKeyDown(e, index)}
                             autoFocus={index === 0} // Focus on the first input initially
                             />
                         ))}
