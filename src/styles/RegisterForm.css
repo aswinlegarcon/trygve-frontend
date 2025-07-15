@@ -87,7 +87,8 @@
   margin-bottom: 2.5rem;
   outline: none;
   transition: border 0.2s;
-  background: #fff;
+  background: rgba(255,255,255,0.1);
+
 }
 
 .register-input:focus {
@@ -149,4 +150,6 @@
   z-index: 1;
   pointer-events: none;
 }
+
+
 

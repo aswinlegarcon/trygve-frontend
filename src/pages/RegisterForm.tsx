@@ -43,7 +43,7 @@ const RegisterForm: React.FC = () => {
             secondaryPhone: ""
         });
         alert("Registration successful!");
-        // navigate("/nextpage");
+        navigate("/register-success");
         // Handle form submission logic here
     };
 
