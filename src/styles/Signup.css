@@ -10,7 +10,7 @@
 
 .signup-content {
   width: 100%;
-  max-width: 400px;
+  max-width: 350px;
   min-height: 480px;
   background: #fff;
   border-radius: 24px;
@@ -60,20 +60,20 @@
 .signup-title {
   font-family: 'Audiowide', sans-serif;
   color: #1557d6;
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   letter-spacing: 1px;
-  font-weight: 700;
+  font-weight: 600;
   text-align: left;
   width: 100%;
   margin-top: 38px;
-  margin-bottom: 0.7rem;
+  margin-bottom: 1rem;
 }
 
 .signup-desc {
   font-family: 'Open Sans', sans-serif;
   font-size: 0.95rem;
   color: #444;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   text-align: left;
   width: 100%;
   opacity: 0.9;
