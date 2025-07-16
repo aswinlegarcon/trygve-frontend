@@ -17,7 +17,7 @@ const Login: React.FC = () => {
             try{
                 const user = JSON.parse(userDetails);
                 if(user.email === email.trim() && user.phone === `+91 ${phone.trim()}`) {
-                    navigate("/register-otp");
+                    navigate("/login-otp");
                 } else {
                     alert("Invalid email or phone number. Please try again.");
                 }
