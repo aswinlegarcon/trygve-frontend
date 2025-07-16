@@ -9,6 +9,7 @@ import RegisterForm from './pages/RegisterForm';
 import RegisterFinalPage from './pages/RegisterFinalPage';
 import LoginPage from './pages/Login';
 import LoginOTP from './pages/LoginOTP';
+import LoginFinalPage from './pages/LoginFinalPage';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/register-success" element={<RegisterFinalPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/login-otp" element={<LoginOTP />} />
+        <Route path="/login-success" element={<LoginFinalPage />} />
       </Routes>
     </Router>
   );
