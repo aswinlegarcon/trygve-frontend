@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from "react";
 import "../components/OtpVerification.css"; // Assuming you have a CSS file for styling
+import { useOtp } from "../contexts/OTPContext";
+import { useNavigate } from "react-router-dom";
 
 
 interface OtpVerificationProps{
@@ -21,6 +23,9 @@ const OtpVerification: React.FC<OtpVerificationProps> = ({
     onBack
 }) => {
     const [otp,setOtp] = useState(Array(6).fill(""));// Initialize an array of 6 empty strings for OTP input
+    const [loading, setLoading] = useState(false);
+    const { confirmationResult, setVerified } = useOtp();
+    const navigate = useNavigate();
 
     useEffect(() => {
         localStorage.setItem("dummy_otp","000000"); // Store a dummy OTP in localStorage
@@ -49,21 +54,22 @@ const OtpVerification: React.FC<OtpVerificationProps> = ({
         }
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if(otp.some(digit=> digit===""))
-        {
-            alert ("Please fill all the OTP fields");
+        if (otp.some(digit => digit === "")) {
+            alert("Please fill all the OTP fields");
             return;
         }
-        const enteredOtp = otp.join(""); // Join the OTP array into a string
-        const dummyOtp = localStorage.getItem("dummy_otp");
-        if(enteredOtp !== dummyOtp)
-        {
-            alert("Invalid OTP");
-            return;
+        setLoading(true);
+        try {
+            await confirmationResult.confirm(otp.join(""));
+            setVerified(true);
+            alert("OTP Verified!");
+            navigate("/register");
+        } catch (err) {
+            alert("Invalid OTP. Please try again.");
         }
-        onVerify(enteredOtp); // Join the OTP array into a string and call onVerify
+        setLoading(false);
     };
 
     return (
@@ -93,7 +99,9 @@ const OtpVerification: React.FC<OtpVerificationProps> = ({
                         Didn't receive the code?{" "}
                         <span className="otp-resend-link" onClick={onResend}>Resend</span>
                     </div>
-                    <button type="submit" className="otp-btn">{buttonText}</button>
+                    <button type="submit" className="otp-btn" disabled={loading}>
+                      {loading ? "Verifying..." : buttonText}
+                    </button>
                 </form>
                 <div className="otp-logo-bg"></div>
             </div>

@@ -8,9 +8,11 @@ import SignupOTP from './pages/SignupOTP';
 import RegisterForm from './pages/RegisterForm';
 import RegisterFinalPage from './pages/RegisterFinalPage';
 import LoginPage from './pages/Login';
+import { OtpProvider } from './contexts/OTPContext';
 
 function App() {
   return (
+    <OtpProvider>
     <Router>
       <Routes>
         <Route path="/" element = {<OnboardingPage />} />
@@ -22,6 +24,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
       </Routes>
     </Router>
+    </OtpProvider>
   );
 }
 
