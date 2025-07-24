@@ -62,11 +62,18 @@ const OtpVerification: React.FC<OtpVerificationProps> = ({
         }
         setLoading(true);
         try {
-            await confirmationResult.confirm(otp.join(""));
+            const userCredential = await confirmationResult.confirm(otp.join(""));
+            const user = userCredential.user;
+            
+            // Get the JWT token and store it in localStorage
+            const idToken = await user.getIdToken();
+            localStorage.setItem("firebase_jwt", idToken);
+
             setVerified(true);
-            alert("OTP Verified!");
-            navigate("/register");
+            alert("OTP Verified Successfully!");
+            onVerify(otp.join("")); // Proceed to the next step
         } catch (err) {
+            console.error("OTP Verification Error:", err);
             alert("Invalid OTP. Please try again.");
         }
         setLoading(false);

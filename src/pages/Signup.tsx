@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, RecaptchaVerifier, signInWithPhoneNumber } from "../firebase/config";
-import { useOtp } from "../contexts/OTPContext"
+import { auth, sendOtp } from "../firebase/config";
+import { useOtp } from "../contexts/OTPContext";
 import "../styles/Signup.css";
 
 // Extend the Window interface to include recaptchaVerifier
@@ -20,22 +20,20 @@ const Signup: React.FC = () => {
 
   const handleSendCode = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!phone || !/^\d{10}$/.test(phone)) {
+        alert("Please enter a valid 10-digit phone number.");
+        return;
+    }
     setLoading(true);
     try {
-      // Setup reCAPTCHA
-      window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
-        size: "invisible",
-        callback: () => {},
-      });
-
-      const appVerifier = window.recaptchaVerifier;
-      const fullPhone = `${countryCode} ${phone}`;
-      const confirmation = await signInWithPhoneNumber(auth, fullPhone, appVerifier);
+      const fullPhone = `${countryCode}${phone}`;
+      const confirmation = await sendOtp(fullPhone);
       setCtxPhone(fullPhone);
       setConfirmationResult(confirmation);
       navigate("/otp");
     } catch (err) {
-      alert("Failed to send OTP. Please try again.");
+      console.error("Firebase OTP Error:", err);
+      alert("Failed to send OTP. Please ensure you are using a test number if in development.");
     }
     setLoading(false);
   };
