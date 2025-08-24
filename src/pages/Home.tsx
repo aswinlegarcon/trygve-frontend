@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import '../styles/Home.css';
 
 const Home: React.FC = () => {
     const navigate = useNavigate();
+
+    useEffect(() => {
+        // Clear all localStorage items when Home page loads
+        localStorage.clear();
+        console.log("All localStorage items cleared");
+    }, []);
 
     return (
         <div className="home-bg">
