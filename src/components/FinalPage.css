@@ -1,0 +1,102 @@
+.success-bg {
+  width: 100vw;
+  height: 100vh;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.success-logo-bg {
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  width: 600px;
+  height: 600px;
+  background: url('/assets/logo.png') no-repeat center center;
+  background-size: contain;
+  opacity: 0.2;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.success-content {
+  width: 100%;
+  max-width: 350px;
+  min-height: 520px;
+  border-radius: 24px;
+  box-shadow: 0 2px 16px rgba(30, 80, 180, 0.1);
+  padding: 32px 22px 24px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+
+
+.success-tick {
+  width: 70px;
+  height: 70px;
+  margin-top: 32px;
+  margin-bottom: 2.5rem;
+  z-index: 2;
+}
+
+.success-title {
+  font-family: 'Audiowide', sans-serif;
+  color: #1557d6;
+  font-size: 1.3rem;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  z-index: 2;
+}
+
+.success-desc {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.8rem;
+  color: #888;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  z-index: 2;
+}
+
+.success-btn {
+  width: 100%;
+  background: #1557d6;
+  color: #fff;
+  border: 2px solid #1557d6;
+  border-radius: 25px;
+  padding: 0.9rem 0;
+  font-size: 1.1rem;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  margin-top: auto;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(30, 80, 180, 0.08);
+  transition: background 0.2s, color 0.2s;
+  z-index: 2;
+}
+
+.success-btn:hover,
+.success-btn:focus {
+  background: #fff;
+  color: #1557d6;
+}
+
+@media(max-width: 450px){
+    .success-logo-bg {
+        width: 420px;
+        height: 400px;
+    }
+}
+@media(max-width: 400px){
+    .success-logo-bg {
+        width: 300px;
+        height: 300px;
+    }
+}

@@ -1,4 +1,5 @@
 import React, {useState,useEffect, useRef} from "react";
+import { useNavigate } from "react-router-dom"; 
 import '../styles/OnboardingPage.css';
 
 
@@ -35,6 +36,7 @@ const OnboardingPage : React.FC = () => {
     const nextScreen = ()=> {
         currentScreen<screens.length-1 && setCurrentScreen(currentScreen + 1);
     };
+    const navigate = useNavigate();
 
     const lastScreen = () => {
         setCurrentScreen(screens.length - 1);
@@ -121,7 +123,7 @@ const OnboardingPage : React.FC = () => {
                     <p className="onboarding-subtitle">"{subtitle}"</p>
                     {
                             currentScreen === screens.length - 1 &&
-                            <button className="onboarding-btn primary"  onClick={() => alert('clicked')}>Get Started</button>
+                            <button className="onboarding-btn primary"  onClick={() => navigate('/home')}>Get Started</button>
                     }
 
 
