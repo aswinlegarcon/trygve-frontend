@@ -7,6 +7,8 @@ interface OtpContextType {
   setConfirmationResult: (result: any) => void;
   verified: boolean;
   setVerified: (v: boolean) => void;
+  registrationCompleted: boolean;
+  setRegistrationCompleted: (completed: boolean) => void;
 }
 
 const OtpContext = createContext<OtpContextType | undefined>(undefined);
@@ -21,9 +23,19 @@ export const OtpProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [phone, setPhone] = useState("");
   const [confirmationResult, setConfirmationResult] = useState<any>(null);
   const [verified, setVerified] = useState(false);
+  const [registrationCompleted, setRegistrationCompleted] = useState(false);
 
   return (
-    <OtpContext.Provider value={{ phone, setPhone, confirmationResult, setConfirmationResult, verified, setVerified }}>
+    <OtpContext.Provider value={{ 
+      phone, 
+      setPhone, 
+      confirmationResult, 
+      setConfirmationResult, 
+      verified, 
+      setVerified,
+      registrationCompleted,
+      setRegistrationCompleted
+    }}>
       {children}
     </OtpContext.Provider>
   );

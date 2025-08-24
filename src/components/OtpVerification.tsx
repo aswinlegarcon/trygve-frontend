@@ -27,10 +27,6 @@ const OtpVerification: React.FC<OtpVerificationProps> = ({
     const { confirmationResult, setVerified } = useOtp();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        localStorage.setItem("dummy_otp","000000"); // Store a dummy OTP in localStorage
-    },[]);
-
     const handleChange = (value : string, index: number) => {
         if(/^\d?$/.test(value)){
             const newOtp = [...otp];
