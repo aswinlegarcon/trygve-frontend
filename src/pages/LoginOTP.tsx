@@ -9,7 +9,7 @@ function LoginOTP(){
     return (
         <OtpVerification
             title="Verification Code"
-            subtitle={`We have sent a verification code to your registered email address.`}
+            subtitle={`We have sent a verification code to your registered mobile number.`}
             buttonText="Continue"
             onVerify={() => navigate("/login-success")}
             onResend={() => alert("Resend Code")}

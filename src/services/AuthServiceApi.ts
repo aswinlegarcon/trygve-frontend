@@ -61,8 +61,8 @@ export const verifyFirebaseToken = async (): Promise<{ success: boolean; message
 };
 
 // 2. Check if user is registered by phone number
-export const checkUserRegistration = async (phoneNumber: string): Promise<{ isRegistered: boolean; message: string }> => {
-  return makeRequest('/check-user', 'POST', { phoneNumber });
+export const checkPhoneRegistration = async (phoneNumber: string): Promise<{ isRegistered: boolean; message: string }> => {
+  return makeRequest('/check-phone', 'POST', { phoneNumber });
 };
 
 // 3. Register/Update user details
@@ -75,3 +75,17 @@ export const registerUser = async (userDetails: {
 }): Promise<{ status: boolean; message: string; user?: any }> => {
   return makeRequest('/register', 'PUT', userDetails);
 };
+
+// 4. Check if email is registered (LOGIN)
+export const checkEmailRegistration = async (email: string): Promise<{ isRegistered: boolean; message: string }> => {
+  return makeRequest('/check-email', 'POST', { email });
+};
+
+// 5. Validate login credentials
+export const validateLoginCredentials = async (email: string, phoneNumber: string): Promise<{ belongsToSameUser: boolean; message: string; userData?: any }> => {
+  return makeRequest('/check-user', 'POST', { email, phoneNumber });
+};
+
+
+
+
