@@ -1,18 +1,16 @@
 import React, {useState, useEffect} from "react";
-import "../components/OtpVerification.css"; // Assuming you have a CSS file for styling
+import "../components/OtpVerification.css";
 import { useOtp } from "../contexts/OTPContext";
 import { useNavigate } from "react-router-dom";
-
 
 interface OtpVerificationProps{
     title : string;
     subtitle : string;
     buttonText : string;
-    onVerify: (otp:string) => void;
+    onVerify: (otp: string, firebaseToken: string, user: any) => void;
     onResend?: () => void;
     onBack?: () => void;
 }
-
 
 const OtpVerification: React.FC<OtpVerificationProps> = ({
     title,
@@ -22,7 +20,7 @@ const OtpVerification: React.FC<OtpVerificationProps> = ({
     onResend,   
     onBack
 }) => {
-    const [otp,setOtp] = useState(Array(6).fill(""));// Initialize an array of 6 empty strings for OTP input
+    const [otp,setOtp] = useState(Array(6).fill(""));
     const [loading, setLoading] = useState(false);
     const { confirmationResult, setVerified } = useOtp();
     const navigate = useNavigate();
@@ -30,11 +28,11 @@ const OtpVerification: React.FC<OtpVerificationProps> = ({
     const handleChange = (value : string, index: number) => {
         if(/^\d?$/.test(value)){
             const newOtp = [...otp];
-            newOtp[index] = value; // Update the specific index with the new value
+            newOtp[index] = value;
             setOtp(newOtp);
             if(value && index<5){
                 const next = document.getElementById(`otp-input-${index+1}`);
-                next && (next as HTMLInputElement).focus(); // Move focus to the next input
+                next && (next as HTMLInputElement).focus();
             }
         }
     };
@@ -45,7 +43,7 @@ const OtpVerification: React.FC<OtpVerificationProps> = ({
             if(otp[index]==="" && index>0)
             {
                 const prev = document.getElementById(`otp-input-${index-1}`);
-                prev && (prev as HTMLInputElement).focus(); // Move focus to the previous input
+                prev && (prev as HTMLInputElement).focus();
             }
         }
     }
@@ -58,16 +56,20 @@ const OtpVerification: React.FC<OtpVerificationProps> = ({
         }
         setLoading(true);
         try {
+            // Verify OTP with Firebase
             const userCredential = await confirmationResult.confirm(otp.join(""));
             const user = userCredential.user;
             
-            // Get the JWT token and store it in localStorage
-            const idToken = await user.getIdToken();
-            localStorage.setItem("firebase_jwt", idToken);
+            // Get the Firebase JWT token and store it
+            const firebaseToken = await user.getIdToken();
+            localStorage.setItem("firebase_jwt", firebaseToken);
 
             setVerified(true);
             alert("OTP Verified Successfully!");
-            onVerify(otp.join("")); // Proceed to the next step
+            
+            // Call the onVerify method with OTP, Firebase token, and user data
+            await onVerify(otp.join(""), firebaseToken, user);
+            
         } catch (err) {
             console.error("OTP Verification Error:", err);
             alert("Invalid OTP. Please try again.");
@@ -94,7 +96,7 @@ const OtpVerification: React.FC<OtpVerificationProps> = ({
                             value={digit}
                             onChange={(e) => handleChange(e.target.value, index)}
                             onKeyDown={(e) => handleKeyDown(e, index)}
-                            autoFocus={index === 0} // Focus on the first input initially
+                            autoFocus={index === 0}
                             />
                         ))}
                     </div>
@@ -108,7 +110,7 @@ const OtpVerification: React.FC<OtpVerificationProps> = ({
                 </form>
                 <div className="otp-logo-bg"></div>
             </div>
-            </div>
+        </div>
     );
 };
 

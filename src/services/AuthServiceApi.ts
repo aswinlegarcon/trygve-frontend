@@ -80,6 +80,24 @@ export const validateLoginCredentials = async (email: string, phoneNumber: strin
   return api.post('/check-user', { email, phoneNumber });
 };
 
+export const loginWithOTP = async (phoneNumber: string,firebaseToken: string): Promise<{
+  token: string;
+  tokenType: string;
+  userId: number;
+  email: string;
+  phoneNumber: string;
+  message: string;
+}> => {
+  if (!firebaseToken) {
+    throw new Error('No Firebase token found');
+  }
+
+  return api.post('/login', {
+    phoneNumber,
+    idToken: firebaseToken
+  });
+};
+
 
 
 
