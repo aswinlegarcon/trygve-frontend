@@ -123,7 +123,7 @@ const OnboardingPage : React.FC = () => {
                     <p className="onboarding-subtitle">"{subtitle}"</p>
                     {
                             currentScreen === screens.length - 1 &&
-                            <button className="onboarding-btn primary"  onClick={() => navigate('/home')}>Get Started</button>
+                            <button className="onboarding-btn primary"  onClick={() => navigate('/dashboard')}>Get Started</button>
                     }
 
 

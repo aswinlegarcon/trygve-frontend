@@ -1,68 +1,62 @@
-const API_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL + '/user'
+import axios, { type AxiosResponse } from 'axios';
 
-// Helper function to get Firebase token from localStorage
+// Create axios instance with base configuration
+const api = axios.create({
+  baseURL: import.meta.env.VITE_APP_API_BASE_URL + '/user',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// Request interceptor (runs before every request)
+api.interceptors.request.use(
+  (config) => {
+    console.log('Making request to:', config.url);
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Response interceptor (runs after every response)
+api.interceptors.response.use(
+  (response: AxiosResponse) => {
+    // Axios automatically parses JSON
+    return response.data;
+  },
+  (error) => {
+    console.error('API Error:', error.response?.data || error.message);
+    
+    // Better error handling
+    if (error.response?.status === 401) {
+      // Handle unauthorized
+      localStorage.removeItem('firebase_jwt');
+      window.location.href = '/login';
+    }
+    
+    throw new Error(error.response?.data?.message || error.message);
+  }
+);
+
+// Helper function to get Firebase token
 const getFirebaseToken = (): string | null => {
   return localStorage.getItem('firebase_jwt');
 };
 
-// Helper function to make requests WITHOUT token in body
-const makeRequest = async (url: string, method: 'POST' | 'PUT', data: any = {}) => {
-  const headers = {
-    'Content-Type': 'application/json',
-  };
-
-  const response = await fetch(`${API_BASE_URL}${url}`, {
-    method,
-    headers,
-    body: JSON.stringify(data),
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
-  }
-
-  return response.json();
-};
-
-// Helper function to make requests WITH token in body (only for /auth)
-const makeRequestWithTokenInBody = async (url: string) => {
+// 1. Verify Firebase token with backend
+export const verifyFirebaseToken = async (): Promise<{ success: boolean; message: string }> => {
   const token = getFirebaseToken();
-  
   if (!token) {
     throw new Error('No authentication token found');
   }
-
-  const headers = {
-    'Content-Type': 'application/json',
-  };
-
-  const requestBody = {
-    token
-  };
-
-  const response = await fetch(`${API_BASE_URL}${url}`, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify(requestBody),
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
-  }
-
-  return response.json();
-};
-
-// 1. Verify Firebase token with backend
-export const verifyFirebaseToken = async (): Promise<{ success: boolean; message: string }> => {
-  return makeRequestWithTokenInBody('/auth');
+  
+  return api.post('/auth', { token });
 };
 
 // 2. Check if user is registered by phone number
-export const checkUserRegistration = async (phoneNumber: string): Promise<{ isRegistered: boolean; message: string }> => {
-  return makeRequest('/check-user', 'POST', { phoneNumber });
+export const checkPhoneRegistration = async (phoneNumber: string): Promise<{ isRegistered: boolean; message: string }> => {
+  return api.post('/check-phone', { phoneNumber });
 };
 
 // 3. Register/Update user details
@@ -73,5 +67,37 @@ export const registerUser = async (userDetails: {
   secondaryPhoneNumber: string;
   primaryPhoneNumber: string;
 }): Promise<{ status: boolean; message: string; user?: any }> => {
-  return makeRequest('/register', 'PUT', userDetails);
+  return api.put('/register', userDetails);
 };
+
+// 4. Check if email is registered (LOGIN)
+export const checkEmailRegistration = async (email: string): Promise<{ isRegistered: boolean; message: string }> => {
+  return api.post('/check-email', { email });
+};
+
+// 5. Validate login credentials
+export const validateLoginCredentials = async (email: string, phoneNumber: string): Promise<{ belongsToSameUser: boolean; message: string; userData?: any }> => {
+  return api.post('/check-user', { email, phoneNumber });
+};
+
+export const loginWithOTP = async (phoneNumber: string,firebaseToken: string): Promise<{
+  token: string;
+  tokenType: string;
+  userId: number;
+  email: string;
+  phoneNumber: string;
+  message: string;
+}> => {
+  if (!firebaseToken) {
+    throw new Error('No Firebase token found');
+  }
+
+  return api.post('/login', {
+    phoneNumber,
+    idToken: firebaseToken
+  });
+};
+
+
+
+

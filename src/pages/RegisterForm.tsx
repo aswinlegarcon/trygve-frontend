@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { verifyFirebaseToken, checkUserRegistration, registerUser } from '../services/AuthServiceApi';
+import { verifyFirebaseToken, checkPhoneRegistration, registerUser } from '../services/AuthServiceApi';
 import { useOtp } from '../contexts/OTPContext';
 import ProtectedRoute from '../components/ProtectedRoute';
 import '../styles/RegisterForm.css';
@@ -59,7 +59,7 @@ const RegisterForm: React.FC = () => {
             }
             
             console.log("Checking user registration status...");
-            const registrationStatus = await checkUserRegistration(phone);
+            const registrationStatus = await checkPhoneRegistration(phone);
             console.log("Registration status:", registrationStatus);
             
             // Step 3: Register/Update user details

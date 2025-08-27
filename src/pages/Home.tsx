@@ -4,13 +4,6 @@ import '../styles/Home.css';
 
 const Home: React.FC = () => {
     const navigate = useNavigate();
-
-    useEffect(() => {
-        // Clear all localStorage items when Home page loads
-        localStorage.clear();
-        console.log("All localStorage items cleared");
-    }, []);
-
     return (
         <div className="home-bg">
             <div className="home-logo-bg" />

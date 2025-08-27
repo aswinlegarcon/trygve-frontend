@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { auth, sendOtp } from "../firebase/config";
 import { useOtp } from "../contexts/OTPContext";
 import "../styles/Signup.css";
-import { checkUserRegistration } from "../services/AuthServiceApi";
+import { checkPhoneRegistration } from "../services/AuthServiceApi";
 
 // Extend the Window interface to include recaptchaVerifier
 declare global {
@@ -28,7 +28,7 @@ const Signup: React.FC = () => {
     setLoading(true);
     try {
       const fullPhone = `${countryCode}${phone}`;
-      const userExist = await checkUserRegistration(fullPhone);
+      const userExist = await checkPhoneRegistration(fullPhone);
       if (userExist.isRegistered) {
         alert("User already exists.");
         setLoading(false);
