@@ -1,24 +1,22 @@
 import { useNavigate } from "react-router-dom";
 import FinalPage from "../components/FinalPage";
-import ProtectedRoute from "../components/ProtectedRoute";
 
-const RegisterFinalPage = () => {
+const LoginFinalPage = () => {
   const navigate = useNavigate();
+  
   return (
-    <ProtectedRoute requirePhone={true} requireRegistrationCompleted={true} redirectTo="/login">
     <FinalPage
-      title={<>Welcome back to<br />TRYGVE</>}
+      title={<>Welcome Back to Your<br />Healthcare Dashboard!</>}
       subtitle={
         <>
-          "Your Trusted Guardian of Life is ready<br />
-          to serve you."
+          You're successfully logged in.<br />
+          Let's continue your health journey.
         </>
       }
-      buttonText="Continue"
-      onButtonClick={() => navigate("/login")}
+      buttonText="Go to Dashboard"
+      onButtonClick={() => navigate("/dashboard")}
     />
-    </ProtectedRoute>
   );
 };
 
-export default RegisterFinalPage;
+export default LoginFinalPage;

@@ -51,6 +51,46 @@ export class JWTService {
     return Date.now() > parseInt(expiryTime);
   }
 
+  // Fixed method - returns minutes instead of milliseconds
+  static getTimeUntilExpiry(): number {
+    const expiryTime = localStorage.getItem(this.EXPIRY_KEY);
+    if (!expiryTime) return 0;
+
+    const timeRemainingMs = Math.max(0, parseInt(expiryTime) - Date.now());
+    const timeRemainingMinutes = Math.floor(timeRemainingMs / (1000 * 60)); // Convert to minutes
+    
+    return timeRemainingMinutes;
+  }
+
+  // Add this method to get formatted time string
+  static getFormattedTimeUntilExpiry(): string {
+    const totalMinutes = this.getTimeUntilExpiry();
+    
+    if (totalMinutes <= 0) {
+      return 'Expired';
+    }
+    
+    if (totalMinutes < 60) {
+      return `${totalMinutes}m`;
+    }
+    
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    
+    if (hours < 24) {
+      return minutes > 0 ? `${hours}h ${minutes}m` : `${hours}h`;
+    }
+    
+    const days = Math.floor(hours / 24);
+    const remainingHours = hours % 24;
+    
+    if (remainingHours > 0) {
+      return `${days}d ${remainingHours}h`;
+    }
+    
+    return `${days}d`;
+  }
+  
   static clearAuth(): void {
     localStorage.removeItem(this.JWT_KEY);
     localStorage.removeItem(this.USER_DATA_KEY);
